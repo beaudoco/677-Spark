@@ -26,7 +26,7 @@ if __name__ == "__main__":
     f = open("mean.txt", "w")
 #   LOOP THRU EACH YEAR
     for year in year_list:
-        f = open(year + ".txt", "w")
+#         f = open(year + ".txt", "w")
         for fileName in glob.glob("" + year + ".txt"):
             lines = sc.textFile(fileName, 1)
             counts = lines.flatMap(lambda x: x.split(',')) \
