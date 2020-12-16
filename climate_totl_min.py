@@ -21,18 +21,20 @@ if __name__ == "__main__":
     year_list = ['1980', '1981', '1982', '1983', '1984', '1985', '1986', '1987', '1988', '1989', '1990', '1991', '1992', '1993', '1994', '1995',
                  '1996', '1997', '1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012']
     # year_list = ['1980']
+#   SPARK SETUP
     sc = SparkContext(appName="PySparkClimate1980")
     f = open("min.txt", "w")
+#   GO THRU ALL YEARS
     for year in year_list:
-        # f = open(year + ".txt", "w")
+#         f = open(year + ".txt", "w")
+#       GO THRU MIN FILES
         for fileName in glob.glob("" + year + "-min.txt"):
             lines = sc.textFile(fileName, 1)
             counts = lines.flatMap(lambda x: x.split(',')) \
                 .map(mapper) \
                 .min()
             output = counts
-            # output = counts.collect()
-            # print(output)
+#           ADD TO YEAR MIN FILE
             f.write(str(output) + ",")
         # f.close()
     end_time = time.time()
