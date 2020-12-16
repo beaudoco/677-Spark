@@ -18,21 +18,21 @@ def mapper(word):
 
 if __name__ == "__main__":
     start_time = time.time()
-    year_list = ['2012']
-    # year_list = ['1980', '1981']
+    year_list = ['1980', '1981', '1982', '1983', '1984', '1985', '1986', '1987', '1988', '1989', '1990', '1991', '1992', '1993', '1994', '1995',
+                 '1996', '1997', '1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012']
+#   SPARK CONTEXT
     sc = SparkContext(appName="PySparkClimate1981")
+#   GO THRU ALL THE YEARS
     for year in year_list:
         f = open(year + "-min.txt", "w")
+#       GO THRU ALL FILES
         for fileName in glob.glob("/home/DATA/NOAA_weather/" + year + "/*.gz"):
             lines = sc.textFile(fileName, 1)
             counts = lines.flatMap(lambda x: x.splitlines()) \
                 .map(mapper) \
                 .min()
-                # .filter(lambda x: float(x) < float("9999")) \
-                # .min()
             output = counts
-            # output = counts.collect()
-            # print(output)
+#           ADD MIN TO FILE
             f.write(str(output) + ",")
         f.close()
     end_time = time.time()
